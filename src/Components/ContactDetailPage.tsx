@@ -12,7 +12,6 @@ const ContactDetailPage: React.FC = () => {
   const contact = useSelector((state: RootStore) =>
     state.contacts.find((c) => c.id === Number(id))
   );
-  console.log(id);
   const [editedContact, setEditedContact] = useState<Contact | null>(null);
 
   useEffect(() => {
