@@ -5,6 +5,7 @@ import "leaflet/dist/leaflet.css";
 import L, { LatLngExpression } from "leaflet";
 import { CountryData } from "../types/map&LineGraph";
 
+//async function to fetch data
 const fetchCountryData = async (): Promise<CountryData[]> => {
   const response = await fetch("https://disease.sh/v3/covid-19/countries");
   if (!response.ok) {
@@ -13,6 +14,7 @@ const fetchCountryData = async (): Promise<CountryData[]> => {
   return response.json();
 };
 
+//showing location icon on map
 const customIcon = new L.Icon({
   iconUrl: "/loc_icon.png",
   iconSize: [15, 34],
@@ -21,6 +23,7 @@ const customIcon = new L.Icon({
 });
 
 const CountryMap: React.FC = () => {
+  // used react query to handle error, loading, and rendering data on ui
   const { data, isLoading, error } = useQuery<CountryData[]>(
     "countryData",
     fetchCountryData
@@ -30,16 +33,19 @@ const CountryMap: React.FC = () => {
   if (error)
     return <div>An error has occurred: {(error as Error).message}</div>;
 
+  // center of the map
   const center: LatLngExpression = [0, 0];
 
   return (
     <>
       <h2 className="text-xl font-semibold mb-4">COVID-19 Global Map</h2>
+      {/* // render map */}
       <MapContainer
         center={center}
         zoom={2}
         style={{ height: "400px", width: "100%" }}
       >
+        {/* // tile layer */}
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         {data?.map((country: CountryData) => (
           <Marker

@@ -17,7 +17,7 @@ const ContactsPage: React.FC = () => {
 
   const handleAddContact = () => {
     if (newContact.name && newContact.email && newContact.phone) {
-      dispatch(addContact({ id: contacts.length + 1, ...newContact }));
+      dispatch(addContact({ id: Date.now(), ...newContact }));
       setNewContact({ name: "", email: "", phone: "" });
       setIsAdding(false);
     }
